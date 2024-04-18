@@ -17,15 +17,15 @@ INC_PTH	=	inc/
 INC		=	$(addprefix $(INC_PTH), minitalk.h)
 
 SRC_PTH	=	src/
-SRC		=	
+SRC		=	util.c
 SRC_S	=	server.c
 SRC_C	=	client.c
 
 OBJ_PTH	=	obj/
 OBJ		=	$(SRC:%.c=$(OBJ_PTH)%.o)
 #AR		=	ar rc
-CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror
+CC		=	cc 
+CFLAGS	=	-Wall -Wextra -Werror 
 RM		=	rm -f
 RM_RF	= 	rm -rf
 
@@ -54,10 +54,10 @@ all : $(SERVER) $(CLIENT)
 #	$(CC) $(CFLAGS) $^ -o $@
 #	@echo "$(D_GREEN)$(NAME) compiled$(NC)"
 
-$(SERVER): $(SRC_PTH)$(SRC_S)
+$(SERVER): $(SRC_PTH)$(SRC_S) $(SRC_PTH)$(SRC)
 	$(CC) $(CFLAGS) $^ -o $@
 
-$(CLIENT): $(SRC_PTH)$(SRC_C)
+$(CLIENT): $(SRC_PTH)$(SRC_C) $(SRC_PTH)$(SRC)
 	$(CC) $(CFLAGS) $^ -o $@
 
 $(OBJ_PTH)%.o: $(SRC_PTH)%.c $(INC) Makefile | $(OBJ_PTH)
@@ -105,7 +105,8 @@ log: clear
 
 push:
 	@git push
-	@clear && git log --name-status -1
+	-@git push intra
+	-@clear && git log --name-status -1
 
 git_add:
 	@git add .

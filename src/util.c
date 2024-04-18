@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsomchan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 12:58:29 by tsomchan          #+#    #+#             */
-/*   Updated: 2024/04/18 12:58:31 by tsomchan         ###   ########.fr       */
+/*   Created: 2024/04/18 13:37:05 by tsomchan          #+#    #+#             */
+/*   Updated: 2024/04/18 13:37:06 by tsomchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
-# include <unistd.h>
-# include <signal.h>
-# include <stdlib.h>
-# include <stdio.h>
+#include "../inc/minitalk.h"
 
-typedef struct s_byte
+void	ft_putnbr(int n)
 {
-	unsigned char	b1:1;
-	unsigned char	b2:1;
-	unsigned char	b3:1;
-	unsigned char	b4:1;
-	unsigned char	b5:1;
-	unsigned char	b6:1;
-	unsigned char	b7:1;
-	unsigned char	b8:1;
-}	t_byte;
+	char	c;
 
-void	ft_putnbr(int n);
+	if (n >= 10)
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+	else
+	{
+		c = n + '0';
+		write(1, &c, 1);
+	}
+}
 
-#endif
