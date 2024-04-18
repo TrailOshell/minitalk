@@ -10,8 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-#NAME	=	minitalk
-
 CLIENT	=	client
 SERVER	=	server
 
@@ -19,17 +17,19 @@ INC_PTH	=	inc/
 INC		=	$(addprefix $(INC_PTH), minitalk.h)
 
 SRC_PTH	=	src/
-SRC		=	minitalk.c 
+SRC		=	
+SRC_S	=	server.c
+SRC_C	=	client.c
 
 OBJ_PTH	=	obj/
 OBJ		=	$(SRC:%.c=$(OBJ_PTH)%.o)
-
-AR		=	ar rc
+#AR		=	ar rc
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror
 RM		=	rm -f
 RM_RF	= 	rm -rf
 
+#	Colors
 NC			=	\033[0;0m
 BLACK		=	\033[0;30m
 D_RED		=	\033[0;31m
@@ -48,11 +48,17 @@ L_PURPLE	=	\033[1;35m
 L_CYAN		=	\033[1;36m
 WHITE		=	\033[1;37m
 
-all : $(NAME)
+all : $(SERVER) $(CLIENT)
 
-$(NAME): $(OBJ)
+#$(NAME): $(OBJ)
+#	$(CC) $(CFLAGS) $^ -o $@
+#	@echo "$(D_GREEN)$(NAME) compiled$(NC)"
+
+$(SERVER): $(SRC_PTH)$(SRC_S)
 	$(CC) $(CFLAGS) $^ -o $@
-	@echo "$(D_GREEN)$(NAME) compiled$(NC)"
+
+$(CLIENT): $(SRC_PTH)$(SRC_C)
+	$(CC) $(CFLAGS) $^ -o $@
 
 $(OBJ_PTH)%.o: $(SRC_PTH)%.c $(INC) Makefile | $(OBJ_PTH)
 	$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
@@ -68,12 +74,14 @@ clean:
 	@echo "$(D_GRAY)removed object files$(NC)"
 
 fclean: clean
-	$(RM) $(NAME)
-	@echo "$(D_GRAY)removed $(NAME)$(NC)"
+	$(RM) $(SERVER)
+	@echo "$(D_GRAY)removed $(SERVER)$(NC)"
+	$(RM) $(CLIENT)
+	@echo "$(D_GRAY)removed $(CLIENT)$(NC)"
 
 re: fclean all
 
-.PHONY: clean fclean re all
+.PHONY: clean fclean re all server client
 
 #	my additional rules
 
