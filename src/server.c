@@ -60,12 +60,12 @@ void	handler(int sig)
 		i = 1;
 	if (sig == SIGUSR1)
 	{
-		set_bit(0, &i, &byte);
+		//set_bit(0, &i, &byte);
 		i++;
 	}
 	if (sig == SIGUSR2)
 	{
-		set_bit(1, &i, &byte);
+		//set_bit(1, &i, &byte);
 		i++;
 	}
 }

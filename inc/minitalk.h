@@ -30,5 +30,6 @@ typedef struct s_byte
 }	t_byte;
 
 void	ft_putnbr(int n);
+int		ft_atoi(const char *nptr);
 
 #endif
