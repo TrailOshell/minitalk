@@ -6,7 +6,7 @@
 /*   By: tsomchan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:57:37 by tsomchan          #+#    #+#             */
-/*   Updated: 2024/04/18 12:57:40 by tsomchan         ###   ########.fr       */
+/*   Updated: 2024/04/24 00:40:37 by tsomchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,3 @@ int	main(int argc, char **argv)
 	}
 	return (0);
 }
-
-//printf("(int)argv[2][i] = \'%c\' %d\n", (int)argv[2][i], (int)argv[2][i]);

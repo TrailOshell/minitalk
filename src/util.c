@@ -6,7 +6,7 @@
 /*   By: tsomchan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:16:14 by tsomchan          #+#    #+#             */
-/*   Updated: 2024/04/23 19:16:17 by tsomchan         ###   ########.fr       */
+/*   Updated: 2024/04/24 00:40:21 by tsomchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,61 +22,47 @@ size_t	mnt_strlen(char *s)
 	return (len);
 }
 
-int	mnt_strcmp(char *s1, char *s2)
-{
-	while (*s1 == *s2 && *s1 && *s2)
-	{
-		s1++;
-		s2++;
-	}
-	if (*s1 != *s2)
-		return (0);
-	return (1);
-}
-
-char	*mnt_strdup(char *str)
-{
-	char	*dupe;
-	int		i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	dupe = malloc(sizeof(char) * (i + 1));
-	i = 0;
-	while (str[i])
-	{
-		dupe[i] = str[i];
-		i++;
-	}
-	dupe[i] = '\0';
-	return (dupe);
-}
-
 int	mnt_atoi(char *str)
 {
 	long	num;
-	int		len;
+	int		idx;
 	int		sign;
 
 	num = 0;
-	len = 0;
+	idx = 0;
 	sign = 1;
-	while (str[len] == ' ')
-		len++;
-	if (str[len] == '-' || str[len] == '+')
+	while (str[idx] == ' ')
+		idx++;
+	if (str[idx] == '-' || str[idx] == '+')
 	{
-		if (str[len] == '-')
+		if (str[idx] == '-')
 			sign = -1;
-		len++;
+		idx++;
 	}
-	while (str[len] >= '0' && str[len] <= '9')
+	while (str[idx] >= '0' && str[idx] <= '9')
 	{
 		num = num * 10;
-		num = num + str[len] - '0';
+		num = num + str[idx] - '0';
 		if (num < -2147483648 || num > 2147483647)
 			break ;
-		len++;
+		idx++;
 	}
 	return (num * sign);
+}
+
+void	mnt_putnbr(int num)
+{
+	char	c;
+
+	if (num >= 10)
+	{
+		mnt_putnbr(num / 10);
+		mnt_putnbr(num % 10);
+	}
+	else
+	{
+		c = num + '0';
+		write(1, &c, 1);
+		usleep(20000);
+	}
 }

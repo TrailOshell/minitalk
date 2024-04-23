@@ -6,7 +6,7 @@
 /*   By: tsomchan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:57:25 by tsomchan          #+#    #+#             */
-/*   Updated: 2024/04/18 12:57:27 by tsomchan         ###   ########.fr       */
+/*   Updated: 2024/04/24 00:39:13 by tsomchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(void)
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	set_color(PURPLE);
-	typing("PID: ", PURPLE);
+	typing("Server PID: ", PURPLE);
 	ft_putnbr(getpid());
 	write(1, "\n", 1);
 	set_color(RESET_C);

@@ -6,7 +6,7 @@
 #    By: tsomchan <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 16:19:11 by tsomchan          #+#    #+#              #
-#    Updated: 2024/04/15 16:19:14 by tsomchan         ###   ########.fr        #
+#    Updated: 2024/04/24 00:39:52 by tsomchan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ SERVER	=	server
 
 INC_PTH	=	inc/
 INC		=	$(addprefix $(INC_PTH), minitalk.h)
-
+# INC		=	inc/
+	
 SRC_PTH	=	src/
 SRC		=	color.c util.c
 
