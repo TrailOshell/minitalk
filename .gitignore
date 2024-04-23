@@ -1,3 +1,5 @@
 minitalk
+server
+client
 *obj/
 *.o
