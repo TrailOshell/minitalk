@@ -17,6 +17,7 @@ INC_PTH	=	inc/
 INC		=	$(addprefix $(INC_PTH), minitalk.h)
 
 SRC_PTH	=	src/
+SRC		=	
 SRC_S	=	server.c
 SRC_C	=	client.c
 
