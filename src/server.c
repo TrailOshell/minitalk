@@ -6,19 +6,19 @@
 /*   By: tsomchan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:57:25 by tsomchan          #+#    #+#             */
-/*   Updated: 2024/04/24 00:39:13 by tsomchan         ###   ########.fr       */
+/*   Updated: 2024/04/24 00:57:41 by tsomchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minitalk.h"
 
-void	handler(int sig, siginfo_t *info, void *u)
+void	handler(int sig, siginfo_t *info, void *ucontext)
 {
 	static char	c = 0b00000000;
 	static int	i = 0;
 	int			client_pid;
 
-	(void)u;
+	(void)ucontext;
 	client_pid = info->si_pid;
 	if (sig == SIGUSR2)
 		c |= (0b10000000 >> i);
@@ -35,23 +35,6 @@ void	handler(int sig, siginfo_t *info, void *u)
 	kill(client_pid, SIGUSR2);
 }
 
-void	ft_putnbr(int num)
-{
-	char	c;
-
-	if (num >= 10)
-	{
-		ft_putnbr(num / 10);
-		ft_putnbr(num % 10);
-	}
-	else
-	{
-		c = num + '0';
-		write(1, &c, 1);
-		usleep(20000);
-	}
-}
-
 int	main(void)
 {
 	struct sigaction	sa;
@@ -63,7 +46,7 @@ int	main(void)
 	sigaction(SIGUSR2, &sa, NULL);
 	set_color(PURPLE);
 	typing("Server PID: ", PURPLE);
-	ft_putnbr(getpid());
+	mnt_putnbr(getpid());
 	write(1, "\n", 1);
 	set_color(RESET_C);
 	while (1)

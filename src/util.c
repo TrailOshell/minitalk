@@ -6,7 +6,7 @@
 /*   By: tsomchan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:16:14 by tsomchan          #+#    #+#             */
-/*   Updated: 2024/04/24 00:40:21 by tsomchan         ###   ########.fr       */
+/*   Updated: 2024/04/24 00:58:34 by tsomchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ size_t	mnt_strlen(char *s)
 	while (*s++)
 		len++;
 	return (len);
+}
+
+int	mnt_strcmp(char *s1, char *s2)
+{
+	while (*s1 == *s2 && *s1 && *s2)
+	{
+		s1++;
+		s2++;
+	}
+	if (*s1 != *s2)
+		return (0);
+	return (1);
 }
 
 int	mnt_atoi(char *str)
