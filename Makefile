@@ -84,7 +84,7 @@ clear:
 	@clear
 
 norm: clear
-	@norminette $(addprefix $(SRC_PTH), $(SRC))
+	@norminette $(addprefix $(SRC_PTH), $(SRC)) $(SRC_S) $(SRC_C)
 TRASH = .DS_Store
 
 clean_more:

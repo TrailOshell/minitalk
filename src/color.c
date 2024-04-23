@@ -12,7 +12,6 @@
 
 #include "../inc/minitalk.h"
 
-
 void	set_color(char *color)
 {
 	int	len;
