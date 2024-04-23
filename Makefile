@@ -111,3 +111,49 @@ endif
 .PHONY += clear norm clean_more git log push git_add
 
 #	test
+
+#	./client $(p) "$(cat file)"
+
+TXT_PTH	=	txt/
+
+define run_txt
+	@echo "$(D_YELLOW)Makefile: using $1$(NC)"
+	./client $(p) "$(shell cat $(addprefix $(TXT_PTH), $1))"
+endef
+
+test: all
+ifdef txt
+	@$(call run_txt, $(txt))
+else
+	@$(call run_txt, 50k.txt)
+endif
+
+250k: all
+	@$(call run_txt, 250k.txt)
+
+50k: all
+	@$(call run_txt, 50k.txt)
+
+25k: all
+	@$(call run_txt, 25k.txt)
+
+eng: all
+	@$(call run_txt, eng.txt)
+
+jp: all
+	@$(call run_txt, jp_hira.txt)
+	@$(call run_txt, jp_kata.txt)
+
+rus: all
+	@$(call run_txt, rus.txt)
+
+ukr: all
+	@$(call run_txt, ukr.txt)
+
+gr: all
+	@$(call run_txt, gr.txt)
+
+thai: all
+	@$(call run_txt, thai.txt)
+
+test_all: jp rus ukr gr thai 25k 50k
