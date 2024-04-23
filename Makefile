@@ -92,7 +92,7 @@ clean_more:
 
 #	git
 
-git: git_add push norm
+git: git_add push
 
 log: clear
 	@git log --name-status -3
@@ -117,8 +117,7 @@ endif
 TXT_PTH	=	txt/
 
 define run_txt
-	
-	@echo "$(D_YELLOW)Makefile: using $1$(NC)"
+	@echo "$(D_YELLOW)Makefile: ./client $(p)$$cat $(addprefix $(TXT_PTH), $1) $(NC)"
 	./client $(p) "$(shell cat $(addprefix $(TXT_PTH), $1))"
 endef
 
