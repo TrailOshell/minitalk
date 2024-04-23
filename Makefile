@@ -17,31 +17,29 @@ INC_PTH	=	inc/
 INC		=	$(addprefix $(INC_PTH), minitalk.h)
 
 SRC_PTH	=	src/
-SRC		=	
 SRC_S	=	server.c
 SRC_C	=	client.c
 
 OBJ_PTH	=	obj/
-OBJ		=	$(SRC:%.c=$(OBJ_PTH)%.o)
 OBJ_S	=	$(SRC_S:%.c=$(OBJ_PTH)%.o)
 OBJ_C	=	$(SRC_C:%.c=$(OBJ_PTH)%.o)
 
-CC		=	cc 
-CFLAGS	=	-Wall -Wextra -Werror 
+CC		=	cc
+CFLAGS	=	-Wall -Wextra -Werror
 RM		=	rm -f
 RM_RF	= 	rm -rf
 
-all : $(SERVER) $(CLIENT)
+all: $(SERVER) $(CLIENT)
 
-$(SERVER): $(OBJ_S) $(OBJ)
+$(SERVER): $(OBJ_S)
 	$(CC) $(CFLAGS) $^ -o $@
 	@echo "$(D_GREEN)$(SERVER) compiled$(NC)"
 
-$(CLIENT): $(OBJ_C) $(OBJ)
+$(CLIENT): $(OBJ_C)
 	$(CC) $(CFLAGS) $^ -o $@
 	@echo "$(D_GREEN)$(CLIENT) compiled$(NC)"
 
-$(OBJ_PTH)%.o: $(SRC_PTH)%.c $(INC) Makefile | $(OBJ_PTH)
+$(OBJ_PTH)%.o: $(SRC_PTH)%.c Makefile | $(OBJ_PTH)
 	$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
 	@echo "$(D_YELLOW)compiled $<$(NC)"
 
@@ -52,16 +50,15 @@ $(OBJ_PTH):
 clean:
 	$(RM) $(OBJ)
 	$(RM_RF) $(OBJ_PTH)
-	@echo "$(D_GRAY)removed object files$(NC)"
+	@echo "$(D_GRAY)removed object files and dependency files$(NC)"
 
 fclean: clean
-	$(RM) $(SERVER) $(CLIENT)
+	$(RM) $(SERVER)
 	@echo "$(D_GRAY)removed $(SERVER)$(NC)"
+	$(RM) $(CLIENT)
 	@echo "$(D_GRAY)removed $(CLIENT)$(NC)"
 
 re: fclean all
-
-.PHONY: clean fclean re all server client
 
 #	my additional rules
 
