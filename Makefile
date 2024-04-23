@@ -17,12 +17,13 @@ INC_PTH	=	inc/
 INC		=	$(addprefix $(INC_PTH), minitalk.h)
 
 SRC_PTH	=	src/
-SRC_S	=	server.c
-SRC_C	=	client.c
+SRC		=	color.c util.c
+
+SRC_S	=	$(SRC_PTH)server.c
+SRC_C	=	$(SRC_PTH)client.c
 
 OBJ_PTH	=	obj/
-OBJ_S	=	$(SRC_S:%.c=$(OBJ_PTH)%.o)
-OBJ_C	=	$(SRC_C:%.c=$(OBJ_PTH)%.o)
+OBJ		=	$(SRC:%.c=$(OBJ_PTH)%.o)
 
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror
@@ -31,12 +32,12 @@ RM_RF	= 	rm -rf
 
 all: $(SERVER) $(CLIENT)
 
-$(SERVER): $(OBJ_S)
-	$(CC) $(CFLAGS) $^ -o $@
+$(SERVER): $(SRC_S) $(OBJ)
+	$(CC) $(CFLAGS) $< $(OBJ) -o $@
 	@echo "$(D_GREEN)$(SERVER) compiled$(NC)"
 
-$(CLIENT): $(OBJ_C)
-	$(CC) $(CFLAGS) $^ -o $@
+$(CLIENT): $(SRC_C) $(OBJ)
+	$(CC) $(CFLAGS) $< $(OBJ) -o $@
 	@echo "$(D_GREEN)$(CLIENT) compiled$(NC)"
 
 $(OBJ_PTH)%.o: $(SRC_PTH)%.c Makefile | $(OBJ_PTH)
@@ -53,10 +54,8 @@ clean:
 	@echo "$(D_GRAY)removed object files and dependency files$(NC)"
 
 fclean: clean
-	$(RM) $(SERVER)
-	@echo "$(D_GRAY)removed $(SERVER)$(NC)"
-	$(RM) $(CLIENT)
-	@echo "$(D_GRAY)removed $(CLIENT)$(NC)"
+	$(RM) $(SERVER) $(CLIENT)
+	@echo "$(D_GRAY)removed $(SERVER) and $(CLIENT)$(NC)"
 
 re: fclean all
 
@@ -86,7 +85,6 @@ clear:
 
 norm: clear
 	@norminette $(addprefix $(SRC_PTH), $(SRC))
-
 TRASH = .DS_Store
 
 clean_more:
@@ -111,3 +109,5 @@ ifdef m
 endif
 
 .PHONY += clear norm clean_more git log push git_add
+
+#	test

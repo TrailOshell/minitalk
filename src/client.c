@@ -17,7 +17,7 @@ int	g_ack_signal;
 void	ack_handler(int sig)
 {
 	if (sig == SIGUSR1)
-		write(1, "\nMessage sent successfully\n", 27);
+		typing("Message sent successfully\n", GREEN);
 	else if (sig == SIGUSR2)
 		g_ack_signal = 1;
 	return ;
@@ -41,64 +41,39 @@ void	send_char(char c, int pid)
 	}
 }
 
-static size_t	check(size_t n, const char *nptr, int sign)
+void	sending_message(char **argv, int pid)
 {
-	while (*nptr >= '0' && *nptr <= '9')
-	{
-		n = *nptr - '0' + (n * 10);
-		nptr++;
-	}
-	return (n * sign);
-}
+	int					i;
 
-int	ft_atoi(const char *nptr)
-{
-	size_t	n;
-	int		sign;
-	int		d;
-
-	d = 0;
-	sign = 1;
-	n = 0;
-	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
-	while (*nptr == '+' || *nptr == '-')
-	{
-		if (*nptr == '-')
-			sign = -1;
-		d++;
-		nptr++;
-	}
-	if (d > 1)
-		return (n);
-	n = check(n, nptr, sign);
-	return (n);
+	i = 0;
+	g_ack_signal = 0;
+	while (argv[2][i])
+		send_char(argv[2][i++], pid);
+	send_char('\0', pid);
 }
 
 int	main(int argc, char **argv)
 {
-	int					pid;
 	struct sigaction	sa;
-	int					i;
+	int					pid;
 
 	if (argc != 3)
-		write(1, "Usage: ./client [PID] [STRING_TO_PASS]\n", 40);
-	pid = ft_atoi(argv[1]);
-	if (pid <= 0)
+		typing("Input like this -> ./client [PID] [STRING]\n", YELLOW);
+	else if (argc == 3)
 	{
-		write(1, "Invalid PID!\n", 13);
-		return (0);
+		pid = mnt_atoi(argv[1]);
+		if (pid <= 0)
+			typing("Invalid PID!\n", YELLOW);
+		else
+		{
+			sa.sa_handler = ack_handler;
+			sigemptyset(&sa.sa_mask);
+			sa.sa_flags = 0;
+			sigaction(SIGUSR1, &sa, NULL);
+			sigaction(SIGUSR2, &sa, NULL);
+			sending_message(argv, pid);
+		}
 	}
-	sa.sa_handler = ack_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
-	i = 0;
-	g_ack_signal = 0;
-	while (argv[2][i])
-		send_char((int)argv[2][i++], pid);
-	send_char('\0', pid);
 	return (0);
 }
 

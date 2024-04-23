@@ -35,19 +35,20 @@ void	handler(int sig, siginfo_t *info, void *u)
 	kill(client_pid, SIGUSR2);
 }
 
-void	ft_putnbr(int n)
+void	ft_putnbr(int num)
 {
 	char	c;
 
-	if (n >= 10)
+	if (num >= 10)
 	{
-		ft_putnbr(n / 10);
-		ft_putnbr(n % 10);
+		ft_putnbr(num / 10);
+		ft_putnbr(num % 10);
 	}
 	else
 	{
-		c = n + '0';
+		c = num + '0';
 		write(1, &c, 1);
+		usleep(20000);
 	}
 }
 
@@ -60,9 +61,11 @@ int	main(void)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	write(1, "PID: ", 6);
+	set_color(PURPLE);
+	typing("PID: ", PURPLE);
 	ft_putnbr(getpid());
 	write(1, "\n", 1);
+	set_color(RESET_C);
 	while (1)
 		pause();
 	return (0);
