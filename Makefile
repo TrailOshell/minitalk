@@ -17,17 +17,52 @@ INC_PTH	=	inc/
 INC		=	$(addprefix $(INC_PTH), minitalk.h)
 
 SRC_PTH	=	src/
-SRC		=	util.c
 SRC_S	=	server.c
 SRC_C	=	client.c
 
 OBJ_PTH	=	obj/
 OBJ		=	$(SRC:%.c=$(OBJ_PTH)%.o)
-#AR		=	ar rc
+OBJ_S	=	$(SRC_S:%.c=$(OBJ_PTH)%.o)
+OBJ_C	=	$(SRC_C:%.c=$(OBJ_PTH)%.o)
+
 CC		=	cc 
 CFLAGS	=	-Wall -Wextra -Werror 
 RM		=	rm -f
 RM_RF	= 	rm -rf
+
+all : $(SERVER) $(CLIENT)
+
+$(SERVER): $(OBJ_S) $(OBJ)
+	$(CC) $(CFLAGS) $^ -o $@
+	@echo "$(D_GREEN)$(SERVER) compiled$(NC)"
+
+$(CLIENT): $(OBJ_C) $(OBJ)
+	$(CC) $(CFLAGS) $^ -o $@
+	@echo "$(D_GREEN)$(CLIENT) compiled$(NC)"
+
+$(OBJ_PTH)%.o: $(SRC_PTH)%.c $(INC) Makefile | $(OBJ_PTH)
+	$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
+	@echo "$(D_YELLOW)compiled $<$(NC)"
+
+$(OBJ_PTH):
+	mkdir -p $(OBJ_PTH)
+	@echo "$(D_YELLOW)compiled $@$(NC)"
+
+clean:
+	$(RM) $(OBJ)
+	$(RM_RF) $(OBJ_PTH)
+	@echo "$(D_GRAY)removed object files$(NC)"
+
+fclean: clean
+	$(RM) $(SERVER) $(CLIENT)
+	@echo "$(D_GRAY)removed $(SERVER)$(NC)"
+	@echo "$(D_GRAY)removed $(CLIENT)$(NC)"
+
+re: fclean all
+
+.PHONY: clean fclean re all server client
+
+#	my additional rules
 
 #	Colors
 NC			=	\033[0;0m
@@ -47,43 +82,6 @@ L_BLUE		=	\033[1;34m
 L_PURPLE	=	\033[1;35m
 L_CYAN		=	\033[1;36m
 WHITE		=	\033[1;37m
-
-all : $(SERVER) $(CLIENT)
-
-#$(NAME): $(OBJ)
-#	$(CC) $(CFLAGS) $^ -o $@
-#	@echo "$(D_GREEN)$(NAME) compiled$(NC)"
-
-$(SERVER): $(SRC_PTH)$(SRC_S) $(SRC_PTH)$(SRC)
-	$(CC) $(CFLAGS) $^ -o $@
-
-$(CLIENT): $(SRC_PTH)$(SRC_C) $(SRC_PTH)$(SRC)
-	$(CC) $(CFLAGS) $^ -o $@
-
-$(OBJ_PTH)%.o: $(SRC_PTH)%.c $(INC) Makefile | $(OBJ_PTH)
-	$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
-	@echo "$(D_YELLOW)compiled $<$(NC)"
-
-$(OBJ_PTH):
-	mkdir -p $(OBJ_PTH)
-	@echo "$(D_YELLOW)compiled $@$(NC)"
-
-clean:
-	$(RM) $(OBJ)
-	$(RM_RF) $(OBJ_PTH)
-	@echo "$(D_GRAY)removed object files$(NC)"
-
-fclean: clean
-	$(RM) $(SERVER)
-	@echo "$(D_GRAY)removed $(SERVER)$(NC)"
-	$(RM) $(CLIENT)
-	@echo "$(D_GRAY)removed $(CLIENT)$(NC)"
-
-re: fclean all
-
-.PHONY: clean fclean re all server client
-
-#	my additional rules
 
 clear:
 	@clear

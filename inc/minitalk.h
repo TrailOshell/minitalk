@@ -17,18 +17,6 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-typedef struct s_byte
-{
-	unsigned char	b1:1;
-	unsigned char	b2:1;
-	unsigned char	b3:1;
-	unsigned char	b4:1;
-	unsigned char	b5:1;
-	unsigned char	b6:1;
-	unsigned char	b7:1;
-	unsigned char	b8:1;
-}	t_byte;
-
 void	ft_putnbr(int n);
 int		ft_atoi(const char *nptr);
 

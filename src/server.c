@@ -7,33 +7,57 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:57:25 by tsomchan          #+#    #+#             */
 /*   Updated: 2024/04/18 12:57:27 by tsomchan         ###   ########.fr       */
-/*                                                                            */ /* ************************************************************************** */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../inc/minitalk.h"
 
-void	handler(int sig)
+void	handler(int sig, siginfo_t *info, void *u)
 {
 	static char	c = 0b00000000;
 	static int	i = 0;
+	int			client_pid;
 
+	(void)u;
+	client_pid = info->si_pid;
 	if (sig == SIGUSR2)
 		c |= (0b10000000 >> i);
 	i++;
 	if (i == 8)
 	{
-		write(1, &c, 1);
+		if (c == '\0')
+			kill(client_pid, SIGUSR1);
+		else
+			write(1, &c, 1);
 		c = 0b00000000;
 		i = 0;
 	}
+	kill(client_pid, SIGUSR2);
 }
 
+void	ft_putnbr(int n)
+{
+	char	c;
+
+	if (n >= 10)
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+	else
+	{
+		c = n + '0';
+		write(1, &c, 1);
+	}
+}
 
 int	main(void)
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = &handler;
-	sa.sa_flags = SA_RESTART;
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = handler;
+	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	write(1, "PID: ", 6);
@@ -43,61 +67,3 @@ int	main(void)
 		pause();
 	return (0);
 }
-
-/*
-	if (!i)
-		i = 1;
-	if (sig == SIGUSR1)
-	{
-		set_bit(0, &i, &byte);
-		i++;
-	}
-	if (sig == SIGUSR2)
-	{
-		set_bit(1, &i, &byte);
-		i++;
-	}
-*/
-
-/*
-t_byte		byte;
-
-void	set_bit(int bit, int *i, t_byte *byte)
-{
-	printf("i = %d ", *i);
-	printf("sig = %d ", bit);
-	if (bit == 0)
-		printf("SIGUSR1\n", SIGUSR1);
-	if (bit == 1)
-		printf("SIGUSR2\n", SIGUSR2);
-	if (*i == 1)
-		byte->b1 = bit;
-	if (*i == 2)
-		byte->b2 = bit;
-	if (*i == 3)
-		byte->b3 = bit;
-	if (*i == 4)
-		byte->b4 = bit;
-	if (*i == 5)
-		byte->b5 = bit;
-	if (*i == 6)
-		byte->b6 = bit;
-	if (*i == 7)
-		byte->b7 = bit;
-	if (*i == 8)
-	{
-		byte->b8 = bit;
-		write(1, &*(unsigned char *)byte, 1);
-		write(1, "\n", 1);
-		*i = 0;
-		printf("byte->= \'%c\' %d %d%d%d%d%d%d%d%d\n",
-			*(unsigned char *)byte, *(unsigned char *)byte,
-			byte->b1, byte->b2, byte->b3, byte->b4,
-			byte->b5, byte->b6, byte->b7, byte->b8);
-	}
-	printf("byte->= \'%c\' %d %d%d%d%d%d%d%d%d\n",
-		*(unsigned char *)byte, *(unsigned char *)byte,
-		byte->b1, byte->b2, byte->b3, byte->b4,
-		byte->b5, byte->b6, byte->b7, byte->b8);
-}
-*/

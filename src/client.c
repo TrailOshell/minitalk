@@ -3,13 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsomchan <marvin@42.fr>                    +#+  +:+       +#+        */ /*                                                +#+#+#+#+#+   +#+           */
+/*   By: tsomchan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:57:37 by tsomchan          #+#    #+#             */
 /*   Updated: 2024/04/18 12:57:40 by tsomchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minitalk.h"
+
+int	g_ack_signal;
+
+void	ack_handler(int sig)
+{
+	if (sig == SIGUSR1)
+		write(1, "\nMessage sent successfully\n", 27);
+	else if (sig == SIGUSR2)
+		g_ack_signal = 1;
+	return ;
+}
 
 void	send_char(char c, int pid)
 {
@@ -18,79 +30,76 @@ void	send_char(char c, int pid)
 	i = 0;
 	while (i < 8)
 	{
+		g_ack_signal = 0;
 		if (c & (0b10000000 >> i))
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
 		i++;
-		usleep(500);
+		while (!g_ack_signal)
+			pause();
 	}
+}
+
+static size_t	check(size_t n, const char *nptr, int sign)
+{
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+		n = *nptr - '0' + (n * 10);
+		nptr++;
+	}
+	return (n * sign);
+}
+
+int	ft_atoi(const char *nptr)
+{
+	size_t	n;
+	int		sign;
+	int		d;
+
+	d = 0;
+	sign = 1;
+	n = 0;
+	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
+		nptr++;
+	while (*nptr == '+' || *nptr == '-')
+	{
+		if (*nptr == '-')
+			sign = -1;
+		d++;
+		nptr++;
+	}
+	if (d > 1)
+		return (n);
+	n = check(n, nptr, sign);
+	return (n);
 }
 
 int	main(int argc, char **argv)
 {
-	int	pid;
-	int	i;
+	int					pid;
+	struct sigaction	sa;
+	int					i;
 
-	i = 0;
-	if (argc == 3)
-	{
-		pid = ft_atoi((const char *)argv[1]);
-		if (pid <= 0)
-		{
-			write(1, "Invalid PID!\n", 13);
-			return (0);
-		}
-		while (argv[2][i])
-			send_char((int)argv[2][i++], pid);
-	}
-	else
+	if (argc != 3)
 		write(1, "Usage: ./client [PID] [STRING_TO_PASS]\n", 40);
+	pid = ft_atoi(argv[1]);
+	if (pid <= 0)
+	{
+		write(1, "Invalid PID!\n", 13);
+		return (0);
+	}
+	sa.sa_handler = ack_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
+	i = 0;
+	g_ack_signal = 0;
+	while (argv[2][i])
+		send_char((int)argv[2][i++], pid);
+	send_char('\0', pid);
 	return (0);
 }
 
 //printf("(int)argv[2][i] = \'%c\' %d\n", (int)argv[2][i], (int)argv[2][i]);
-
-/*
-void	send_signal(int bit, int pid)
-{
-	if (bit == 0)
-	{
-		if (kill(pid, SIGUSR1) == -1)
-		{
-			write(1, "Problem sending the signal!\n", 29);
-			exit(1);
-		}
-		usleep(300);
-	}
-	if (bit == 1)
-	{
-		if (kill(pid, SIGUSR2) == -1)
-		{
-			write(1, "Problem sending the signal!\n", 29);
-			exit(1);
-		}
-		usleep(300);
-	}
-}
-
-void	convert(int c, int pid)
-{
-	t_byte	byte;
-
-	*(unsigned char *)&byte = (unsigned char)c;
-	*(unsigned char *)&byte = (unsigned char)c;
-	printf("c = \'%c\' %d\n", c, c);
-	printf("byte = \'%c\' %d %d%d%d%d%d%d%d%d\n",
-		*(unsigned char *)&byte, *(unsigned char *)&byte,
-		byte.b1, byte.b2, byte.b3, byte.b4, byte.b5, byte.b6, byte.b7, byte.b8);
-	send_signal(byte.b1, pid);
-	send_signal(byte.b2, pid);
-	send_signal(byte.b3, pid);
-	send_signal(byte.b4, pid);
-	send_signal(byte.b5, pid);
-	send_signal(byte.b6, pid);
-	send_signal(byte.b7, pid);
-	send_signal(byte.b8, pid);
-}
-*/
