@@ -50,11 +50,9 @@ void	typing(char *s, char *color)
 			i++;
 		}
 		j++;
-		if (j != len)
-			write(1, "\r", 1);
+		write(1, "\r", 1);
 		usleep(10000);
 	}
-	write(1, "\r", 1);
 	write(1, s, len);
 	set_color(RESET_C);
 }
