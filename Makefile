@@ -15,7 +15,6 @@ SERVER	=	server
 
 INC_PTH	=	inc/
 INC		=	$(addprefix $(INC_PTH), minitalk.h)
-# INC		=	inc/
 	
 SRC_PTH	=	src/
 SRC		=	color.c util.c
@@ -113,9 +112,12 @@ endif
 
 #	test
 
-#	./client $(p) "$(cat file)"
+t: all
+	./client $(p) "asdf"
 
 TXT_PTH	=	txt/
+
+#	./client $(p) "$(cat file)"
 
 define run_txt
 	@echo "$(D_YELLOW)Makefile: ./client $(p)$$cat $(addprefix $(TXT_PTH), $1) $(NC)"
@@ -126,7 +128,7 @@ test: all
 ifdef txt
 	@$(call run_txt, $(txt))
 else
-	@$(call run_txt, 50k.txt)
+	@$(call run_txt, thai.txt)
 endif
 
 250k: all
@@ -156,5 +158,8 @@ gr: all
 
 thai: all
 	@$(call run_txt, thai.txt)
+
+emoji: all
+	@$(call run_txt, emoji.txt)
 
 test_all: jp rus ukr gr thai 25k 50k

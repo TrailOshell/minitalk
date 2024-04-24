@@ -12,6 +12,22 @@
 
 #include "../inc/minitalk.h"
 
+int	check_diff_pid(int pid)
+{
+	static int	store_pid;
+	int			isdiff;
+
+	isdiff = 0;
+	if (store_pid != pid)
+	{
+		isdiff = 1;
+		write(1, "\n", 1);
+		typing("Different client PID found, byte resetted\n", YELLOW);
+	}
+	store_pid = pid;
+	return (isdiff);
+}
+
 void	handler(int sig, siginfo_t *info, void *ucontext)
 {
 	static char	c = 0b00000000;
@@ -20,6 +36,8 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 
 	(void)ucontext;
 	client_pid = info->si_pid;
+	if (check_diff_pid(client_pid) == 1)
+		i = 0;
 	if (sig == SIGUSR2)
 		c |= (0b10000000 >> i);
 	i++;

@@ -50,7 +50,7 @@ void	typing(char *s, char *color)
 		j++;
 		if (j != len)
 			write(1, "\r", 1);
-		usleep(20000);
+		usleep(10000);
 	}
 	write(1, "\r", 1);
 	write(1, s, len);

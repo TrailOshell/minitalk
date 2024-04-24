@@ -17,7 +17,7 @@ int	g_ack_signal;
 void	ack_handler(int sig)
 {
 	if (sig == SIGUSR1)
-		typing("Message sent successfully\n", GREEN);
+		typing("Message sent\n", GREEN);
 	else if (sig == SIGUSR2)
 		g_ack_signal = 1;
 	return ;
@@ -66,9 +66,9 @@ int	main(int argc, char **argv)
 			typing("Invalid PID!\n", YELLOW);
 		else
 		{
+			sa.sa_flags = 0;
 			sa.sa_handler = ack_handler;
 			sigemptyset(&sa.sa_mask);
-			sa.sa_flags = 0;
 			sigaction(SIGUSR1, &sa, NULL);
 			sigaction(SIGUSR2, &sa, NULL);
 			sending_message(argv, pid);
