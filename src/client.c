@@ -17,9 +17,9 @@ int	g_ack_signal;
 void	ack_handler(int sig)
 {
 	if (sig == SIGUSR1)
-		typing("Message sent\n", GREEN);
-	else if (sig == SIGUSR2)
 		g_ack_signal = 1;
+	else if (sig == SIGUSR2)
+		typing("Message sent\n", GREEN);
 	return ;
 }
 
@@ -43,12 +43,8 @@ void	send_char(char c, int pid)
 
 void	sending_message(char **argv, int pid)
 {
-	int					i;
-
-	i = 0;
-	g_ack_signal = 0;
-	while (argv[2][i])
-		send_char(argv[2][i++], pid);
+	while (*argv[2])
+		send_char(*(argv[2]++), pid);
 	send_char('\0', pid);
 }
 

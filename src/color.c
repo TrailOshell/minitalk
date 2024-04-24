@@ -35,8 +35,10 @@ void	typing(char *s, char *color)
 	int	j;
 	int	len;
 
-	len = mnt_strlen(s);
 	set_color(color);
+	while (*s == '\n')
+		write(1, &(*(s++)), 1);
+	len = mnt_strlen(s);
 	j = 0;
 	while (j < len)
 	{

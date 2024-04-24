@@ -21,10 +21,9 @@ int	check_diff_pid(int pid)
 	if (store_pid != pid)
 	{
 		isdiff = 1;
-		write(1, "\n", 1);
-		typing("Different client PID found, byte resetted\n", YELLOW);
+		store_pid = pid;
+		typing("\nDifferent client PID found, byte now reset\n", YELLOW);
 	}
-	store_pid = pid;
 	return (isdiff);
 }
 
@@ -37,20 +36,24 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 	client_pid = info->si_pid;
 	if (check_diff_pid(client_pid) == 1)
+	{
+		c = 0b00000000;
 		i = 0;
+	}
 	if (sig == SIGUSR2)
 		c |= (0b10000000 >> i);
 	i++;
 	if (i == 8)
 	{
 		if (c == '\0')
-			kill(client_pid, SIGUSR1);
+			kill(client_pid, SIGUSR2);
 		else
 			write(1, &c, 1);
 		c = 0b00000000;
 		i = 0;
+		usleep(0);
 	}
-	kill(client_pid, SIGUSR2);
+	kill(client_pid, SIGUSR1);
 }
 
 int	main(void)
@@ -62,8 +65,8 @@ int	main(void)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	set_color(PURPLE);
 	typing("Server PID: ", PURPLE);
+	set_color(PURPLE);
 	mnt_putnbr(getpid());
 	write(1, "\n", 1);
 	set_color(RESET_C);

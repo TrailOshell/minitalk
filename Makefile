@@ -162,4 +162,88 @@ thai: all
 emoji: all
 	@$(call run_txt, emoji.txt)
 
-test_all: jp rus ukr gr thai 25k 50k
+multi_thai: all
+	@echo "$(D_YELLOW)1 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)2 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)3 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)4 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)5 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)6 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)7 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)8 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)9 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)10 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)11 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)12 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)13 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)14 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)15 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)16 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)17 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)18 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)19 $(NC)"
+	@$(call run_txt, thai.txt)
+	@echo "$(D_YELLOW)20 $(NC)"
+	@$(call run_txt, thai.txt)
+
+multi_50k: all
+	@echo "$(D_YELLOW)1 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)2 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)3 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)4 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)5 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)6 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)7 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)8 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)9 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)10 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)11 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)12 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)13 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)14 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)15 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)16 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)17 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)18 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)19 $(NC)"
+	@$(call run_txt, 50k.txt)
+	@echo "$(D_YELLOW)20 $(NC)"
+	@$(call run_txt, 50k.txt)
+
+test_all: jp rus ukr gr thai emoji 25k 50k
