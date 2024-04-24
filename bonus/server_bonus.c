@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsomchan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 12:57:25 by tsomchan          #+#    #+#             */
-/*   Updated: 2024/04/24 00:57:41 by tsomchan         ###   ########.fr       */
+/*   Created: 2024/04/24 18:04:45 by tsomchan          #+#    #+#             */
+/*   Updated: 2024/04/24 18:04:46 by tsomchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	check_diff_pid(int pid)
 	if (store_pid != pid)
 	{
 		store_pid = pid;
+		typing("\nDifferent client PID found, byte now reset\n", YELLOW);
 		return (1);
 	}
 	return (0);
@@ -42,10 +43,15 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	i++;
 	if (i == 8)
 	{
-		write(1, &c, 1);
+		if (c == '\0')
+			kill(client_pid, SIGUSR2);
+		else
+			write(1, &c, 1);
 		c = 0b00000000;
 		i = 0;
+		usleep(300);
 	}
+	kill(client_pid, SIGUSR1);
 }
 
 int	main(void)
@@ -57,7 +63,7 @@ int	main(void)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	typing("Server PID: ", PURPLE);
+	typing("Server_BONUS PID: ", PURPLE);
 	set_color(PURPLE);
 	mnt_putnbr(getpid());
 	write(1, "\n", 1);

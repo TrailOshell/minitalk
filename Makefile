@@ -22,6 +22,13 @@ SRC		=	color.c util.c
 SRC_S	=	$(SRC_PTH)server.c
 SRC_C	=	$(SRC_PTH)client.c
 
+BONUS_PTH	=	bonus/
+BONUS_S	=	$(BONUS_PTH)server_bonus.c
+BONUS_C	=	$(BONUS_PTH)client_bonus.c
+
+CLIENT_B	=	client_bonus
+SERVER_B	=	server_bonus
+
 OBJ_PTH	=	obj/
 OBJ		=	$(SRC:%.c=$(OBJ_PTH)%.o)
 
@@ -55,9 +62,22 @@ clean:
 
 fclean: clean
 	$(RM) $(SERVER) $(CLIENT)
+	$(RM) $(SERVER_B) $(CLIENT_B)
 	@echo "$(D_GRAY)removed $(SERVER) and $(CLIENT)$(NC)"
 
 re: fclean all
+
+#	bonus
+
+bonus: $(SERVER_B) $(CLIENT_B)
+
+$(SERVER_B): $(BONUS_S) $(OBJ)
+	$(CC) $(CFLAGS) $^ -o $@
+	@echo "$(D_GREEN)$@ compiled$(NC)"
+
+$(CLIENT_B): $(BONUS_C) $(OBJ)
+	$(CC) $(CFLAGS) $^ -o $@
+	@echo "$(D_GREEN)$@ compiled$(NC)"
 
 #	my additional rules
 
@@ -124,129 +144,343 @@ define run_txt
 	./client $(p) "$(shell cat $(addprefix $(TXT_PTH), $1))"
 endef
 
+define bonus_txt
+	@echo "$(D_YELLOW)Makefile: ./client_bonus $(p)$$cat $(addprefix $(TXT_PTH), $1) $(NC)"
+	./client_bonus $(p) "$(shell cat $(addprefix $(TXT_PTH), $1))"
+endef
+
 test: all
 ifdef txt
 	@$(call run_txt, $(txt))
 else
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
 endif
+endif
 
-250k: all
-	@$(call run_txt, 250k.txt)
+#250k: all
+#ifdef b
+#	@$(call bonus_txt, 250k.txt)
+#else
+#	@$(call run_txt, 250k.txt)
+#endif
 
 100: all
-	@$(call run_txt, 100.txt)
+ifdef b
+	@$(call bonus_txt, $@.txt)
+else
+	@$(call run_txt, $@.txt)
+endif
 
 50k: all
-	@$(call run_txt, 50k.txt)
+ifdef b
+	@$(call bonus_txt, $@.txt)
+else
+	@$(call run_txt, $@.txt)
+endif
 
 25k: all
-	@$(call run_txt, 25k.txt)
+ifdef b
+	@$(call bonus_txt, $@.txt)
+else
+	@$(call run_txt, $@.txt)
+endif
 
 eng: all
-	@$(call run_txt, eng.txt)
+ifdef b
+	@$(call bonus_txt, $@.txt)
+else
+	@$(call run_txt, $@.txt)
+endif
 
 jp: all
+ifdef b
+	@$(call bonus_txt, jp_hira.txt)
+	@$(call bonus_txt, jp_kata.txt)
+else
 	@$(call run_txt, jp_hira.txt)
 	@$(call run_txt, jp_kata.txt)
+endif
 
 rus: all
-	@$(call run_txt, rus.txt)
+ifdef b
+	@$(call bonus_txt, $@.txt)
+else
+	@$(call run_txt, $@.txt)
+endif
 
 ukr: all
-	@$(call run_txt, ukr.txt)
+ifdef b
+	@$(call bonus_txt, $@.txt)
+else
+	@$(call run_txt, $@.txt)
+endif
 
 gr: all
-	@$(call run_txt, gr.txt)
+ifdef b
+	@$(call bonus_txt, $@.txt)
+else
+	@$(call run_txt, $@.txt)
+endif
 
 thai: all
-	@$(call run_txt, thai.txt)
+ifdef b
+	@$(call bonus_txt, $@.txt)
+else
+	@$(call run_txt, $@.txt)
+endif
 
 emoji: all
-	@$(call run_txt, emoji.txt)
+ifdef b
+	@$(call bonus_txt, $@.txt)
+else
+	@$(call run_txt, $@.txt)
+endif
 
 multi_thai: all
 	@echo "$(D_YELLOW)1 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)2 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)3 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)4 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)5 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)6 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)7 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)8 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)9 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)10 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)11 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)12 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)13 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)14 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)15 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)16 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)17 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)18 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)19 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 	@echo "$(D_YELLOW)20 $(NC)"
+ifdef b
+	@$(call bonus_txt, thai.txt)
+else
 	@$(call run_txt, thai.txt)
+endif
 
 multi_50k: all
 	@echo "$(D_YELLOW)1 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)2 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)3 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)4 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)5 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)6 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)7 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)8 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)9 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)10 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)11 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)12 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)13 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)14 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)15 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)16 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)17 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)18 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)19 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 	@echo "$(D_YELLOW)20 $(NC)"
+ifdef b
+	@$(call bonus_txt, 50k.txt)
+else
 	@$(call run_txt, 50k.txt)
+endif
 
 test_all: 100 jp rus ukr gr emoji 25k 50k thai 
