@@ -134,6 +134,9 @@ endif
 250k: all
 	@$(call run_txt, 250k.txt)
 
+100: all
+	@$(call run_txt, 100.txt)
+
 50k: all
 	@$(call run_txt, 50k.txt)
 
@@ -246,4 +249,4 @@ multi_50k: all
 	@echo "$(D_YELLOW)20 $(NC)"
 	@$(call run_txt, 50k.txt)
 
-test_all: jp rus ukr gr thai emoji 25k 50k
+test_all: 100 jp rus ukr gr emoji 25k 50k thai 

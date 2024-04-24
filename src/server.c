@@ -51,7 +51,7 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 			write(1, &c, 1);
 		c = 0b00000000;
 		i = 0;
-		usleep(200);
+		usleep(300);
 	}
 	kill(client_pid, SIGUSR1);
 }
