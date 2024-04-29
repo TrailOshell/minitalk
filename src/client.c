@@ -24,7 +24,7 @@ void	send_char(char c, int pid)
 		else
 			kill(pid, SIGUSR1);
 		i++;
-		usleep(450);
+		usleep(500);
 	}
 }
 
@@ -32,7 +32,8 @@ void	sending_message(char **argv, int pid)
 {
 	while (*argv[2])
 	{
-		send_char(*(argv[2]++), pid);
+		send_char(*(argv[2]), pid);
+		argv[2]++;
 		usleep(50);
 	}
 }
