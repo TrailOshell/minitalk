@@ -34,7 +34,7 @@ void	sending_message(char **argv, int pid)
 	{
 		send_char(*(argv[2]), pid);
 		argv[2]++;
-		usleep(50);
+		usleep(200);
 	}
 }
 

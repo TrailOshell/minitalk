@@ -25,6 +25,12 @@ int	check_diff_pid(int pid)
 	return (0);
 }
 
+void	reset_byte(char *c, int *i)
+{
+	*c = 0b00000000;
+	*i = 0;
+}
+
 void	handler(int sig, siginfo_t *info, void *ucontext)
 {
 	static char	c = 0b00000000;
@@ -34,10 +40,7 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 	client_pid = info->si_pid;
 	if (check_diff_pid(client_pid) == 1)
-	{
-		c = 0b00000000;
-		i = 0;
-	}
+		reset_byte(&c, &i);
 	if (sig == SIGUSR2)
 		c |= (0b10000000 >> i);
 	i++;
@@ -47,10 +50,10 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 			kill(client_pid, SIGUSR2);
 		else
 			write(1, &c, 1);
-		c = 0b00000000;
-		i = 0;
-		usleep(300);
+		reset_byte(&c, &i);
+		usleep(1000);
 	}
+	usleep(50);
 	kill(client_pid, SIGUSR1);
 }
 

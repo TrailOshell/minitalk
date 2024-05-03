@@ -14,7 +14,7 @@
 
 int	g_ack_signal;
 
-void	ack_handler(int sig)
+void	handler(int sig)
 {
 	if (sig == SIGUSR1)
 		g_ack_signal = 1;
@@ -63,7 +63,7 @@ int	main(int argc, char **argv)
 		else
 		{
 			sa.sa_flags = 0;
-			sa.sa_handler = ack_handler;
+			sa.sa_handler = handler;
 			sigemptyset(&sa.sa_mask);
 			sigaction(SIGUSR1, &sa, NULL);
 			sigaction(SIGUSR2, &sa, NULL);
