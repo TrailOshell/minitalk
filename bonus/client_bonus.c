@@ -55,7 +55,8 @@ void	sending_message(char **argv, int pid)
 	i = 0;
 	while (*argv[2])
 	{
-		send_char(*(argv[2]++), pid);
+		send_char(*(argv[2]), pid);
+		argv[2]++;
 		i++;
 	}
 	send_char('\0', pid);
