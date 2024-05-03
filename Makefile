@@ -49,21 +49,21 @@ $(CLIENT): $(SRC_C) $(OBJ)
 
 $(OBJ_PTH)%.o: $(SRC_PTH)%.c Makefile | $(OBJ_PTH)
 	$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
-	@echo "$(D_YELLOW)compiled $<$(NC)"
+	@echo "$(D_GREEN)compiled $<$(NC)"
 
 $(OBJ_PTH):
 	mkdir -p $(OBJ_PTH)
-	@echo "$(D_YELLOW)compiled $@$(NC)"
+	@echo "$(D_GREEN)compiled $@$(NC)"
 
 clean:
 	$(RM) $(OBJ)
 	$(RM_RF) $(OBJ_PTH)
-	@echo "$(D_GRAY)removed object files and dependency files$(NC)"
+	@echo "$(D_YELLOW)removed object files and dependency files$(NC)"
 
 fclean: clean
 	$(RM) $(SERVER) $(CLIENT)
 	$(RM) $(SERVER_B) $(CLIENT_B)
-	@echo "$(D_GRAY)removed $(SERVER) and $(CLIENT)$(NC)"
+	@echo "$(D_YELLOW)removed $(SERVER) and $(CLIENT)$(NC)"
 
 re: fclean all
 
