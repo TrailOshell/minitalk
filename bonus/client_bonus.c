@@ -41,11 +41,25 @@ void	send_char(char c, int pid)
 	}
 }
 
+void	byte_sent(int i)
+{
+	typing("byte sent: ", PURPLE);
+	mnt_putnbr(i);
+	write(1, "\n", 1);
+}
+
 void	sending_message(char **argv, int pid)
 {
+	int	i;
+
+	i = 0;
 	while (*argv[2])
+	{
 		send_char(*(argv[2]++), pid);
+		i++;
+	}
 	send_char('\0', pid);
+	byte_sent(i);
 }
 
 int	main(int argc, char **argv)
