@@ -25,13 +25,6 @@ SRC_C	=	$(SRC_PTH)client.c
 OBJ_PTH	=	obj/
 OBJ		=	$(SRC:%.c=$(OBJ_PTH)%.o)
 
-BONUS_PTH	=	bonus/
-BONUS_S	=	$(BONUS_PTH)server_bonus.c
-BONUS_C	=	$(BONUS_PTH)client_bonus.c
-
-CLIENT_B	=	client_bonus
-SERVER_B	=	server_bonus
-
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror
 RM		=	rm -f
@@ -62,22 +55,9 @@ clean:
 
 fclean: clean
 	$(RM) $(SERVER) $(CLIENT)
-	$(RM) $(SERVER_B) $(CLIENT_B)
 	@echo "$(D_YELLOW)removed $(SERVER) and $(CLIENT)$(NC)"
 
 re: fclean all
-
-#	bonus
-
-bonus: $(SERVER_B) $(CLIENT_B)
-
-$(SERVER_B): $(BONUS_S) $(OBJ)
-	$(CC) $(CFLAGS) $^ -o $@
-	@echo "$(D_GREEN)$@ compiled$(NC)"
-
-$(CLIENT_B): $(BONUS_C) $(OBJ)
-	$(CC) $(CFLAGS) $^ -o $@
-	@echo "$(D_GREEN)$@ compiled$(NC)"
 
 #	Colors
 NC			=	\033[0;0m
@@ -104,7 +84,7 @@ clear:
 	@clear
 
 norm: clear
-	@norminette $(addprefix $(SRC_PTH), $(SRC)) $(SRC_S) $(SRC_C) $(BONUS_S) $(BONUS_C)
+	@norminette $(addprefix $(SRC_PTH), $(SRC)) $(SRC_S) $(SRC_C)
 TRASH = .DS_Store
 
 clean_more:
@@ -135,16 +115,14 @@ endif
 
 TESTER_PTH = minitalk_test/
 
-t: test
+t: test 
 
-test:
+test: all | TESTER_PTH
+	make $@ -C $(TESTER_PTH)
+
+$(TESTER_PTH):
+	git clone git@github.com:tsomchan/minitalk_test.git
 	make $@ -C $(TESTER_PTH)
 
 s:
-	make $@ -C $(TESTER_PTH)
-
-sb:
-	make $@ -C $(TESTER_PTH)
-
-t:
 	make $@ -C $(TESTER_PTH)

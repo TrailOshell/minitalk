@@ -19,9 +19,16 @@ int	check_diff_pid(int pid)
 	if (store_pid != pid)
 	{
 		store_pid = pid;
+		typing("\nDifferent client PID found, byte now reset\n", YELLOW);
 		return (1);
 	}
 	return (0);
+}
+
+void	reset_byte(char *c, int *i)
+{
+	*c = 0b00000000;
+	*i = 0;
 }
 
 void	handler(int sig, siginfo_t *info, void *ucontext)
@@ -33,19 +40,19 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 	client_pid = info->si_pid;
 	if (check_diff_pid(client_pid) == 1)
-	{
-		c = 0b00000000;
-		i = 0;
-	}
+		reset_byte(&c, &i);
 	if (sig == SIGUSR2)
 		c |= (0b10000000 >> i);
 	i++;
 	if (i == 8)
 	{
-		write(1, &c, 1);
-		c = 0b00000000;
-		i = 0;
+		if (c == '\0')
+			kill(client_pid, SIGUSR2);
+		else
+			write(1, &c, 1);
+		reset_byte(&c, &i);
 	}
+	kill(client_pid, SIGUSR1);
 }
 
 int	main(void)
