@@ -5,3 +5,6 @@ server_bonus
 client_bonus
 *obj/
 *.o
+
+# minitalk_test
+*minitalk_test/

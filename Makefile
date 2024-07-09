@@ -129,3 +129,22 @@ ifdef m
 endif
 
 .PHONY += clear norm clean_more git log push git_add
+
+# my tester
+# client still has to set p=[PID] to use the make command
+
+TESTER_PTH = minitalk_test/
+
+t: test
+
+test:
+	make $@ -C $(TESTER_PTH)
+
+s:
+	make $@ -C $(TESTER_PTH)
+
+sb:
+	make $@ -C $(TESTER_PTH)
+
+t:
+	make $@ -C $(TESTER_PTH)
