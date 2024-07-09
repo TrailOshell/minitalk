@@ -113,16 +113,16 @@ endif
 # my tester
 # client still has to set p=[PID] to use the make command
 
-TESTER_PTH = minitalk_test/
+TESTER_PTH = minitalk_test
 
 t: test 
 
-test: all | TESTER_PTH
+test: all | $(TESTER_PTH)
 	make $@ -C $(TESTER_PTH)
 
 $(TESTER_PTH):
 	git clone git@github.com:tsomchan/minitalk_test.git
 	make $@ -C $(TESTER_PTH)
 
-s:
+s: all | $(TESTER_PTH)
 	make $@ -C $(TESTER_PTH)
